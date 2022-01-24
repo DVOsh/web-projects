@@ -1,0 +1,93 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:regular,italic,700);
+body {
+  font-family: Roboto, "sans-serif";
+}
+
+.app {
+  padding: 5rem 0px 0px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrap {
+  width: 500px;
+}
+
+.select {
+  width: 100%;
+  position: relative;
+  z-index: 100;
+}
+.select.open .select__dropdown {
+  transform: scaleY(1);
+  opacity: 1;
+  visibility: visible;
+}
+.select.open .select__input {
+  border-bottom: none;
+}
+.select.open .select__input .fa {
+  transform: scaleY(-1);
+}
+.select.open .select__backdrop {
+  display: block;
+}
+.select__input {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 46px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+.select__input .fa {
+  transition: all 0.3s ease;
+}
+.select__dropdown {
+  transform-origin: top;
+  transform: scaleY(0);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  position: absolute;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  top: 46px;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 2px 3px 5px rgba(158, 100, 100, 0.3);
+}
+.select__list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.select__item {
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+.select__item.selected {
+  background-color: bisque;
+}
+.select__item:hover {
+  background-color: #eee;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in;
+}
+.select__backdrop {
+  position: fixed;
+  display: none;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: transparent;
+}
+
+/*# sourceMappingURL=/js-select-plugin.e31bb0bc.css.map */

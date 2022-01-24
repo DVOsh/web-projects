@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="17.355" viewBox="0 0 25 17.355">
+  <defs>
+    <clipPath id="clip">
+      <use xlink:href="#fill"/>
+    </clipPath>
+  </defs>
+  <g id="subscribe" transform="translate(-1428 -4841.323)">
+    <g id="Shape_32" data-name="Shape 32" fill="none">
+      <path d="M1437.615,4857.971l7.971-7.971-7.971-7.97.707-.707,7.971,7.97h0l.707.707-8.678,8.678Z" stroke="none"/>
+      <path d="M 1438.322265625 4858.677734375 L 1437.614990234375 4857.970703125 L 1445.5859375 4849.99951171875 L 1437.614990234375 4842.02978515625 L 1438.322265625 4841.32275390625 L 1446.293212890625 4849.29248046875 L 1447.00048828125 4849.99951171875 L 1438.322265625 4858.677734375 Z" stroke="none" fill="#bb9c66"/>
+    </g>
+    <g id="Shape_32-2" data-name="Shape 32" fill="none">
+      <path d="M1443.615,4857.971l7.97-7.971-7.97-7.97.707-.707L1453,4850l-8.677,8.678Z" stroke="none"/>
+      <path d="M 1444.32275390625 4858.677734375 L 1443.615478515625 4857.970703125 L 1451.585327148438 4849.99951171875 L 1443.615478515625 4842.02978515625 L 1444.32275390625 4841.32275390625 L 1452.999755859375 4849.99951171875 L 1444.32275390625 4858.677734375 Z" stroke="none" fill="#bb9c66"/>
+    </g>
+    <g id="Shape_33" data-name="Shape 33" transform="translate(1428 4849)" fill="none" stroke="#bb9c66" stroke-width="3">
+      <rect id="fill" width="24" height="1" stroke="none"/>
+      <path d="M0,-0.5h24M22.5,0v1M24,1.5h-24M1.5,1v-1" fill="none" clip-path="url(#clip)"/>
+    </g>
+  </g>
+</svg>
