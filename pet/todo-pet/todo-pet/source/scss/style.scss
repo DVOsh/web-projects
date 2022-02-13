@@ -21,13 +21,19 @@ body{
     height: 100%;
     margin: 0 auto;
     &__tabs {}
+    &__container{
+    }
     &__input {
+        position: relative;
+        height: 180px;
+        z-index: 9999;
+        padding: 62px 35px 41px;
+
         background-color: #E8E3D3;
         border-radius: 35px;
-        height: 180px;
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-        padding: 62px 35px 41px;
     }
+    &__task{}
 }
 .tabs-field {
     position: relative;
@@ -69,7 +75,7 @@ body{
     &__item {
         cursor: pointer;
         width: 252px;
-        z-index: 999;
+        z-index: 99999;
 
         padding: 25px 0px;
         background: #6E759C;
@@ -136,5 +142,96 @@ body{
         border-radius: 4px;
 
         font-size: 24px;
+
+        &::placeholder{
+            opacity: .4;
+        }
     }
+}
+
+.task-template{
+    width: 100%;
+    height: 135px;
+    margin: -135px 0px 0px 0px;
+
+    background: #E8E3D3;
+    border-radius: 0px 0px 35px 35px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+
+    transition: all .5s ease 0s;
+
+    &__container{
+        padding: 61px 25px 21px 30px;
+        display: flex;
+        align-items: center;
+
+        transition: .5s;
+    }
+    &__check{
+
+        // cursor: pointer;
+        &>input{
+            cursor: pointer;
+            position: absolute;
+            z-index: -1;
+            opacity: 0;
+
+            &:checked+span::before{
+                border-color: #8B8D9A;
+                background: url(/img/icons/check1.svg) center center no-repeat;
+                background-color: #fff;
+            }
+        }
+        &>span{
+            display: inline-flex;
+            align-items: center;
+            user-select: none;
+
+            &::before{
+                content: '';
+                display: inline-block;
+                flex: 0 0 43px;
+                height: 43px;
+                border: 1px solid #D3D6E8;
+                border-radius: 50%;
+                margin-right: 30px;
+                background: #fff;
+            }
+        }
+    }
+    &__text{
+        position: relative;
+        flex: 1 1 100%;
+        margin: 0px 0px 0px 30px;
+        line-height: 45px;
+
+        font-size: 28px;
+        font-weight: 500;
+
+        transition: .2s;
+
+        &.completed{
+            opacity: .4;
+            text-decoration: line-through;
+        }
+    }
+    &__remove{
+        cursor: pointer;
+        position: relative;
+        width: 57px;
+        height: 57px;
+        background: url('/img/icons/close.svg') 50% 50% no-repeat;
+    }
+}
+
+.edit-input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.3;
 }
