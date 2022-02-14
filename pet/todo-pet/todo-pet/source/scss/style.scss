@@ -161,9 +161,8 @@ body{
     transition: all .5s ease 0s;
 
     &__container{
-        padding: 61px 25px 21px 30px;
+        padding: 63px 25px 28px 30px;
         display: flex;
-        align-items: center;
 
         transition: .5s;
     }
@@ -227,11 +226,15 @@ body{
 .edit-input{
     position: absolute;
     top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+    left: 85px;
+    right: 95px;
+    height: calc(100% - 35px);
+    margin: 35px 0 0 0;
+    padding: 0 0 0 7px;
 
     font-size: 28px;
     font-weight: 500;
     line-height: 1.3;
+
+    box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.25);
 }

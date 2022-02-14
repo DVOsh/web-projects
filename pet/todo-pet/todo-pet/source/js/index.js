@@ -82,7 +82,7 @@ function editTask(event){
     editInput.classList.add('edit-input');
     editInput.value = currentText;
     editInput.selectionStart = editInput.value.length;
-    taskTextEl.append(editInput);
+    taskTextEl.parentElement.append(editInput);
     editInput.focus();
 
     editInput.addEventListener('keyup', function(event){
@@ -99,6 +99,7 @@ function editTask(event){
             this.remove();
         }
     });
+    
     editInput.onblur = function(event){
         this.remove();
     }
