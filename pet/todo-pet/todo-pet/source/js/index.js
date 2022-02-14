@@ -87,7 +87,7 @@ function editTask(event){
 
     editInput.addEventListener('keyup', function(event){
         if(event.code == 'Escape'){
-            this.remove();
+            this.blur();
         }
         
         if(event.code == 'Enter'){
