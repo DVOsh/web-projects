@@ -33,10 +33,14 @@ function addTask(event){
     if(event.code != 'Enter' || !this.value || this.value.match(/^\s*$/)) 
         return;
     
-
+    const currentTaskStorage = tasksStorage.getCurrentStorage();
     //Проверка на наличие данной задачи
-    if(tasksStorage.getCurrentStorage().hasOwnProperty(this.value)){
-        console.log('Duplicated task!');
+    if(currentTaskStorage.hasOwnProperty(this.value)){
+        //Добавить класс для контейнера задачи
+        const keys = Object.keys(currentTaskStorage);
+        let index = keys.indexOf(this.value);
+        taskContainer.children[index + 1].classList.add('duplicated');
+        setTimeout(() => {taskContainer.children[index + 1].classList.remove('duplicated');}, 500)
         return;
     }
 
