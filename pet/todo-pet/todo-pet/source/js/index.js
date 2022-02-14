@@ -1,5 +1,5 @@
 import '/source/scss/style.scss';
-import '/source/js/storage.js';
+import { Storage } from '/source/js/storage.js';
 
 const taskItemHtml = `
 <div class="task-template__container">
@@ -11,20 +11,35 @@ const taskItemHtml = `
     <div class="task-template__remove"></div>
 </div>
 `;
+const tasksStorage = new Storage();
+
 
 
 const taskInput = document.querySelector('.main__input');
 const taskContainer = document.querySelector('.main-field__container');
+const tabsContainer = document.querySelector('.tabs-field__items');
+
+const activeTabEl = document.querySelector('.tabs-field__item.active');
+const completedTabEl = document.querySelector('.tabs-field__item.completed');
+const clearTabEl = document.querySelector('.tabs-field__close-tab');
 
 
 taskInput.addEventListener('keyup', addTask);
 taskContainer.addEventListener('click', removeTask);
 taskContainer.addEventListener('dblclick', editTask);
+tabsContainer.addEventListener('click', chooseTab);
 
 function addTask(event){
     if(event.code != 'Enter' || !this.value || this.value.match(/^\s*$/)) 
         return;
     
+
+    //Проверка на наличие данной задачи
+    if(tasksStorage.getCurrentStorage().hasOwnProperty(this.value)){
+        console.log('Duplicated task!');
+        return;
+    }
+
     //Создание элемента задачи
     const taskEl = createTaskElement(this.value)
     taskContainer.append(taskEl);
@@ -33,17 +48,26 @@ function addTask(event){
     const taskCheckEl = taskEl.querySelector('input[type="checkbox"]');
     taskCheckEl.addEventListener('change', onTaskCheckChange);
 
+    //Добавление задачи в localStorage
+    tasksStorage.addItem(this.value);
 
     taskInput.value = "";
-    
+
+    //Появление вкладки "Active"
+    checkTabs();
 }
 
 function onTaskCheckChange(event){
     const taskTextEl = event.target.closest('.task-template__container').querySelector('.task-template__text');
+
     if(this.checked)
         taskTextEl.classList.add('completed');
     else
         taskTextEl.classList.remove('completed');
+
+    tasksStorage.onItemCheck(taskTextEl.innerText, this.checked);
+
+    checkTabs();
 }
 
 function editTask(event){
@@ -69,6 +93,7 @@ function editTask(event){
         if(event.code == 'Enter'){
             if(this.value.match(/^\s*$/))
                 this.closest('.task-template').remove();
+                // removeTask(event);
             
             taskTextEl.innerText = this.value;
             this.remove();
@@ -85,19 +110,21 @@ function removeTask(event){
     if(!removeBut)
         return;
 
-    removeBut.parentElement.parentElement.remove();
-    
-    //Анимация удаления (не получилась(()
-    // const taskContainer = removeBut.parentElement.parentElement;
+    const taskContainer = removeBut?.closest('.main-field__task');
 
-    // taskContainer.style.transformOrigin = 'top';
-    // taskContainer.style.transform = 'scaleY(0)';
-    // taskContainer.style.opacity = '0';
+    //Анимация удаления
+    taskContainer.style.marginTop = '-135px';
+    taskContainer.style.opacity = '0.5';
 
-    // const removeTimerId = setTimeout(() => {
-    //     taskContainer.remove();
-    //     // clearTimeout(removeTimerId); //не работает
-    // }, parseFloat(getComputedStyle(taskContainer).transitionDuration) * 1000);
+    const removeTimerId = setTimeout(() => {
+        taskContainer.remove();
+        // clearTimeout(removeTimerId); //не работает
+    }, parseFloat(getComputedStyle(taskContainer).transitionDuration) * 1000);
+
+    tasksStorage.removeItem(taskContainer.querySelector('.task-template__text').innerText);
+
+    checkCheckedItemsCount();
+    checkTabs();
 }
 
 
@@ -112,4 +139,49 @@ function createTaskElement(text){
     setTimeout(() => {taskEl.style.marginTop = "-35px"});
 
     return taskEl;
+}
+
+function checkCheckedItemsCount(){
+    const storageObj = tasksStorage.getCurrentStorage();
+    let result = {
+        checked: 0,
+        unchecked: 0
+    };
+
+    for(let check in storageObj){
+        if(storageObj[check]){
+            ++result.checked;
+        } else{
+            ++result.unchecked;
+        }
+    }
+
+    return result;
+}
+
+function checkTabs(){
+    if(checkCheckedItemsCount().checked > 0){
+        completedTabEl.hidden = false;
+        clearTabEl.hidden = false;
+    } else{
+        completedTabEl.hidden = true;
+        clearTabEl.hidden = true;
+    }
+
+    if(checkCheckedItemsCount().unchecked > 0)
+        activeTabEl.hidden = false;
+    else
+        activeTabEl.hidden = true;
+}
+
+function chooseTab(event){
+    const tab = event.target.closest('.tabs-field__item');
+    
+    if(!tab) 
+        return;
+
+    const tabWrapper = document.querySelector('.tabs-field__wrapper');
+    const point = tab.getBoundingClientRect().x - tabsContainer.getBoundingClientRect().x;
+
+    tabWrapper.style.left = point - 24 + 'px';
 }

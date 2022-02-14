@@ -21,8 +21,7 @@ body{
     height: 100%;
     margin: 0 auto;
     &__tabs {}
-    &__container{
-    }
+    &__container{}
     &__input {
         position: relative;
         height: 180px;
@@ -46,6 +45,7 @@ body{
         left: 72px;
         background: #E8E3D3;
         border-radius: 35px 35px 0px 0px;
+        transition: left .5s;
 
 
         &::before,&::after{
