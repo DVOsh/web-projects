@@ -85,6 +85,11 @@ body{
         text-align: center;
         font-size: 24px;
         color: #D3D6E8;
+
+        &.appearing{
+            z-index: 1;
+            margin: -20px 0 0 0;
+        }
     }
     &__close-tab {
         position: absolute;

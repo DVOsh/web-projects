@@ -128,7 +128,6 @@ function removeTask(event){
 
     tasksStorage.removeItem(taskContainer.querySelector('.task-template__text').innerText);
 
-    checkCheckedItemsCount();
     checkTabs();
 }
 
