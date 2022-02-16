@@ -117,9 +117,7 @@ function removeTask(event){
 
     const taskContainer = removeBut?.closest('.main-field__task');
 
-    //Анимация удаления
-    taskContainer.style.marginTop = '-135px';
-    taskContainer.style.opacity = '0.5';
+    hideTabs(taskContainer);
 
     const removeTimerId = setTimeout(() => {
         taskContainer.remove();
@@ -131,7 +129,11 @@ function removeTask(event){
     checkTabs();
 }
 
-
+function hideTabs(containerEl){
+    //Анимация удаления
+    containerEl.style.marginTop = '-135px';
+    containerEl.style.opacity = '0.5';
+}
 
 function createTaskElement(text){
     const taskEl = document.createElement('div');
