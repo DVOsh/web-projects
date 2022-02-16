@@ -164,18 +164,30 @@ function checkCheckedItemsCount(){
 }
 
 function checkTabs(){
-    if(checkCheckedItemsCount().checked > 0){
-        completedTabEl.hidden = false;
-        clearTabEl.hidden = false;
+    if(activeTabEl.hidden){
+        if(checkCheckedItemsCount().unchecked > 0){
+            activeTabEl.hidden = false;
+            animateTab(activeTabEl);
+        }
     } else{
-        completedTabEl.hidden = true;
-        clearTabEl.hidden = true;
+        if(checkCheckedItemsCount().unchecked == 0){
+            animateTab(activeTabEl, true);
+            activeTabEl.hidden = true;
+        }
     }
 
-    if(checkCheckedItemsCount().unchecked > 0)
-        activeTabEl.hidden = false;
-    else
-        activeTabEl.hidden = true;
+    if(completedTabEl.hidden){
+        if(checkCheckedItemsCount().checked > 0){
+            completedTabEl.hidden = false;
+            clearTabEl.hidden = false;
+            animateTab(completedTabEl);
+        }
+    } else{
+        if(checkCheckedItemsCount().checked == 0){
+            completedTabEl.hidden = true;
+            clearTabEl.hidden = true;
+        }
+    }
 }
 
 function chooseTab(event){
@@ -188,4 +200,14 @@ function chooseTab(event){
     const point = tab.getBoundingClientRect().x - tabsContainer.getBoundingClientRect().x;
 
     tabWrapper.style.left = point - 24 + 'px';
+}
+
+function animateTab(tabEl, reverse = false){
+    if(reverse){
+        tabEl.classList.add('appearing_rev');
+        setTimeout(() => {tabEl.classList.remove('appearing_rev')}, 500);
+    } else{
+        tabEl.classList.add('appearing');
+        setTimeout(() => {tabEl.classList.remove('appearing')}, 500);    
+    }
 }
