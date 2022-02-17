@@ -28,6 +28,7 @@ taskInput.addEventListener('keyup', addTask);
 taskContainer.addEventListener('click', removeTask);
 taskContainer.addEventListener('dblclick', editTask);
 tabsContainer.addEventListener('click', chooseTab);
+clearTabEl.addEventListener('click', clearCompletedTasks);
 
 function addTask(event){
     if(event.code != 'Enter' || !this.value || this.value.match(/^\s*$/)) 
@@ -246,5 +247,21 @@ function animateTab(tabEl, reverse = false){
     } else{
         tabEl.classList.add('appearing');
         setTimeout(() => {tabEl.classList.remove('appearing')}, 500);
+    }
+}
+
+function clearCompletedTasks(event){
+    const currentTaskStorage = tasksStorage.getCurrentStorage();
+    let index = 0;
+    
+    for(let task in currentTaskStorage){
+        if(currentTaskStorage[task]){ //! uni removeTask
+            let taskEl = taskContainer.children[index + 1];
+            moveTask(taskEl, true);
+            taskEl.addEventListener('transitionend', function(){this.remove()});
+            tasksStorage.removeItem(task);
+            checkTabs();
+        }
+        index++;
     }
 }
