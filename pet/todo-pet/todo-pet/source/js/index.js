@@ -115,9 +115,9 @@ function removeTask(event){
     if(!removeBut)
         return;
 
-    const taskContainer = removeBut?.closest('.main-field__task');
+    const taskContainer = removeBut.closest('.main-field__task');
 
-    hideTabs(taskContainer);
+    moveTask(taskContainer, true);
 
     const removeTimerId = setTimeout(() => {
         taskContainer.remove();
@@ -129,10 +129,14 @@ function removeTask(event){
     checkTabs();
 }
 
-function hideTabs(containerEl){
-    //Анимация удаления
-    containerEl.style.marginTop = '-135px';
-    containerEl.style.opacity = '0.5';
+function moveTask(containerEl, hide = false){
+    if(hide){
+        containerEl.style.marginTop = '-135px';
+        containerEl.style.opacity = '0.5';    
+    } else{
+        containerEl.style.marginTop = '-35px';
+        containerEl.style.opacity = '1';    
+    }
 }
 
 function createTaskElement(text){
@@ -173,7 +177,7 @@ function checkTabs(){
         }
     } else{
         if(checkCheckedItemsCount().unchecked == 0){
-            animateTab(activeTabEl, true);
+            animateTab(activeTabEl, true); //!
             activeTabEl.hidden = true;
         }
     }
@@ -202,6 +206,37 @@ function chooseTab(event){
     const point = tab.getBoundingClientRect().x - tabsContainer.getBoundingClientRect().x;
 
     tabWrapper.style.left = point - 24 + 'px';
+
+
+    const currentTaskStorage = tasksStorage.getCurrentStorage();
+
+    if(tab.classList.contains('active')){
+        let index = 0;
+        for(let task in currentTaskStorage){
+            if(currentTaskStorage[task]){
+                moveTask(taskContainer.children[index + 1], true);
+            } else{
+                moveTask(taskContainer.children[index + 1]);
+            }
+            index++;
+        }
+    } else if(tab.classList.contains('completed')){
+        let index = 0;
+        for(let task in currentTaskStorage){
+            if(!currentTaskStorage[task]){
+                moveTask(taskContainer.children[index + 1], true);
+            } else{
+                moveTask(taskContainer.children[index + 1]);
+            }
+            index++;
+        }
+    } else if(tab.classList.contains('all')){
+        for(let task of taskContainer.children){
+            if(getComputedStyle(task).marginTop == "-135px"){
+                moveTask(task);
+            }
+        }
+    }
 }
 
 function animateTab(tabEl, reverse = false){
@@ -210,6 +245,6 @@ function animateTab(tabEl, reverse = false){
         setTimeout(() => {tabEl.classList.remove('appearing_rev')}, 500);
     } else{
         tabEl.classList.add('appearing');
-        setTimeout(() => {tabEl.classList.remove('appearing')}, 500);    
+        setTimeout(() => {tabEl.classList.remove('appearing')}, 500);
     }
 }
