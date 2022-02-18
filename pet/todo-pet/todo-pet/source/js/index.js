@@ -29,6 +29,7 @@ taskContainer.addEventListener('click', removeTask);
 taskContainer.addEventListener('dblclick', editTask);
 tabsContainer.addEventListener('click', chooseTab);
 clearTabEl.addEventListener('click', clearCompletedTasks);
+clearTabEl.addEventListener('mouseenter', showClearTabTooltip);
 
 function addTask(event){
     if(event.code != 'Enter' || !this.value || this.value.match(/^\s*$/)) 
@@ -252,4 +253,13 @@ function clearCompletedTasks(event){
         }
         index++;
     }
+}
+
+function showClearTabTooltip(event){
+    const toolTipEl = document.createElement('div');
+    toolTipEl.classList.add('close-field__tooltip');
+    toolTipEl.innerText = 'Clear completed';
+    this.append(toolTipEl);
+
+    this.addEventListener('mouseleave', () => {toolTipEl.remove()});
 }
