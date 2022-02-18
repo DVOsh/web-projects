@@ -29,7 +29,6 @@ taskContainer.addEventListener('click', removeTask);
 taskContainer.addEventListener('dblclick', editTask);
 tabsContainer.addEventListener('click', chooseTab);
 clearTabEl.addEventListener('click', clearCompletedTasks);
-clearTabEl.addEventListener('mouseenter', showClearTabTooltip);
 
 function addTask(event){
     if(event.code != 'Enter' || !this.value || this.value.match(/^\s*$/)) 
@@ -172,28 +171,26 @@ function checkCheckedItemsCount(){
 }
 
 function checkTabs(){
-    if(activeTabEl.hidden){
+
+    if(!activeTabEl.classList.contains('visible')){
         if(checkCheckedItemsCount().unchecked > 0){
-            activeTabEl.hidden = false;
-            animateTab(activeTabEl);
+            activeTabEl.classList.add('visible');
         }
     } else{
         if(checkCheckedItemsCount().unchecked == 0){
-            animateTab(activeTabEl, true); //!
-            activeTabEl.hidden = true;
+            activeTabEl.classList.remove('visible');
         }
     }
 
-    if(completedTabEl.hidden){
+    if(!completedTabEl.classList.contains('visible')){
         if(checkCheckedItemsCount().checked > 0){
-            completedTabEl.hidden = false;
-            clearTabEl.hidden = false;
-            animateTab(completedTabEl);
+            completedTabEl.classList.add('visible');
+            clearTabEl.classList.add('visible');
         }
     } else{
         if(checkCheckedItemsCount().checked == 0){
-            completedTabEl.hidden = true;
-            clearTabEl.hidden = true;
+            clearTabEl.classList.remove('visible');
+            completedTabEl.classList.remove('visible');
         }
     }
 }
@@ -241,16 +238,6 @@ function chooseTab(event){
     }
 }
 
-function animateTab(tabEl, reverse = false){
-    if(reverse){
-        tabEl.classList.add('appearing_rev');
-        setTimeout(() => {tabEl.classList.remove('appearing_rev')}, 500);
-    } else{
-        tabEl.classList.add('appearing');
-        setTimeout(() => {tabEl.classList.remove('appearing')}, 500);
-    }
-}
-
 function clearCompletedTasks(event){
     const currentTaskStorage = tasksStorage.getCurrentStorage();
     let index = 0;
@@ -265,13 +252,4 @@ function clearCompletedTasks(event){
         }
         index++;
     }
-}
-
-function showClearTabTooltip(event){
-    const toolTipEl = document.createElement('div');
-    toolTipEl.classList.add('close-field__tooltip');
-    toolTipEl.innerText = 'Clear completed';
-    this.append(toolTipEl);
-
-    this.addEventListener('mouseleave', () => {toolTipEl.remove()});
 }
