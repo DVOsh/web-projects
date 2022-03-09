@@ -29,7 +29,7 @@ taskContainer.addEventListener('click', removeTask);
 taskContainer.addEventListener('dblclick', editTask);
 tabsContainer.addEventListener('click', chooseTab);
 clearTabEl.addEventListener('click', clearCompletedTasks);
-clearTabEl.addEventListener('mouseenter', showClearTabTooltip);
+clearTabEl.addEventListener('mouseover', showClearTabTooltip);
 
 function addTask(event){
     if(event.code != 'Enter' || !this.value || this.value.match(/^\s*$/)) 
@@ -256,10 +256,14 @@ function clearCompletedTasks(event){
 }
 
 function showClearTabTooltip(event){
+    if(!event.target.closest('.close-field__icon')) //Избыточно?
+        return;
+
+
     const toolTipEl = document.createElement('div');
     toolTipEl.classList.add('close-field__tooltip');
     toolTipEl.innerText = 'Clear completed';
     this.append(toolTipEl);
 
-    this.addEventListener('mouseleave', () => {toolTipEl.remove()});
+    this.addEventListener('mouseout', () => {toolTipEl.remove()});
 }
