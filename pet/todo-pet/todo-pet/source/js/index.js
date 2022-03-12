@@ -37,15 +37,18 @@ function addTask(event){
     
     const currentTaskStorage = tasksStorage.getCurrentStorage();
     //Проверка на наличие данной задачи ------------------Переписать под новый Storage
-    if(currentTaskStorage.hasOwnProperty(this.value)){
-        //Добавить класс для контейнера задачи
-        const keys = Object.keys(currentTaskStorage);
-        let index = keys.indexOf(this.value);
-        taskContainer.children[index + 1].classList.add('duplicated');
-        setTimeout(() => {taskContainer.children[index + 1].classList.remove('duplicated');}, 500)
-        return;
+    let taskIndex = 0;
+    for(let task of Object.values(currentTaskStorage)){
+        if(task.value == this.value){
+            //Добавить класс для контейнера задачи
+            taskContainer.children[taskIndex + 1].classList.add('duplicated');
+            setTimeout(() => {taskContainer.children[taskIndex + 1].classList.remove('duplicated');}, 500);
+            return;    
+        }
+        taskIndex++;
     }
 
+    
     //Создание элемента задачи
     const taskEl = createTaskElement(this.value)
     taskContainer.append(taskEl);
