@@ -161,7 +161,7 @@ function checkCheckedItemsCount(){
     };
 
     for(let check in storageObj){
-        if(storageObj[check]){
+        if(storageObj[check].isChecked){
             ++result.checked;
         } else{
             ++result.unchecked;
@@ -213,7 +213,7 @@ function chooseTab(event){
     if(tab.classList.contains('active')){
         let index = 0;
         for(let task in currentTaskStorage){
-            if(currentTaskStorage[task]){
+            if(currentTaskStorage[task].isChecked){
                 moveTask(taskContainer.children[index + 1], true);
             } else{
                 moveTask(taskContainer.children[index + 1]);
@@ -223,7 +223,7 @@ function chooseTab(event){
     } else if(tab.classList.contains('completed')){
         let index = 0;
         for(let task in currentTaskStorage){
-            if(!currentTaskStorage[task]){
+            if(!currentTaskStorage[task].isChecked){
                 moveTask(taskContainer.children[index + 1], true);
             } else{
                 moveTask(taskContainer.children[index + 1]);
@@ -244,7 +244,7 @@ function clearCompletedTasks(event){
     let index = 0;
     
     for(let task in currentTaskStorage){
-        if(currentTaskStorage[task]){ //! uni removeTask
+        if(currentTaskStorage[task].isChecked){ //! uni removeTask
             let taskEl = taskContainer.children[index + 1];
             moveTask(taskEl, true);
             taskEl.addEventListener('transitionend', function(){this.remove()});
