@@ -2,7 +2,12 @@ localStorage.clear();
 
 export class Storage{
     constructor(){
-        this.storageObj = {};
+        this.storageObj = {
+
+            // [Symbol.iterator](){
+            //     next()
+            // }
+        };
         if(!localStorage['task-list']){
             localStorage.setItem('task-list', JSON.stringify(this.storageObj));
             console.log('Tasks local storage created');
@@ -11,26 +16,33 @@ export class Storage{
 
     addItem(itemText){
         const currentStorage = this.getCurrentStorage();
-        currentStorage[itemText] = false;
-        localStorage.removeItem('task-list');
+        // currentStorage[itemText] = false;
+
+        currentStorage[Date.now()] = {
+            value: itemText,
+            isChecked: false
+        };
+
         localStorage.setItem('task-list', JSON.stringify(currentStorage, null, 2));
     }
 
     editItem(itemIndex){
     }
 
-    onItemCheck(itemKey, isChecked){
+    onItemCheck(itemKey, isChecked){ //Найти по тексту и поставить значение isChecked
         const currentStorage = this.getCurrentStorage();
-        currentStorage[itemKey] = isChecked;
-        localStorage.removeItem('task-list');
-        localStorage.setItem('task-list', JSON.stringify(currentStorage, null, 2));
 
+        for(let item of Object.values(currentStorage)){
+            if(item.value == itemKey)
+                item.isChecked = isChecked;
+        }
+
+        localStorage.setItem('task-list', JSON.stringify(currentStorage, null, 2));
     }
 
     removeItem(itemKey){
         const currentStorage = this.getCurrentStorage();
         delete currentStorage[itemKey];
-        localStorage.removeItem('task-list');
         localStorage.setItem('task-list', JSON.stringify(currentStorage, null, 2));
     }
 

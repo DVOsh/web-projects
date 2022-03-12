@@ -36,7 +36,7 @@ function addTask(event){
         return;
     
     const currentTaskStorage = tasksStorage.getCurrentStorage();
-    //Проверка на наличие данной задачи
+    //Проверка на наличие данной задачи ------------------Переписать под новый Storage
     if(currentTaskStorage.hasOwnProperty(this.value)){
         //Добавить класс для контейнера задачи
         const keys = Object.keys(currentTaskStorage);
@@ -267,3 +267,4 @@ function showClearTabTooltip(event){
 
     this.addEventListener('mouseout', () => {toolTipEl.remove()});
 }
+
