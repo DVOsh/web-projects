@@ -42,11 +42,25 @@ export class Storage{
 
     removeItem(itemKey){
         const currentStorage = this.getCurrentStorage();
+
+        for(let item of Object.values(currentStorage)){ // Дупликация кода, переделать в ф-ю
+            if(item.value == itemKey){
+                const itemIndex = Object.values(currentStorage).indexOf(item);
+                const itemName = Object.keys(currentStorage)[itemIndex];
+
+                delete currentStorage[itemName];
+            }
+        }
+
         delete currentStorage[itemKey];
         localStorage.setItem('task-list', JSON.stringify(currentStorage, null, 2));
     }
 
     getCurrentStorage(){
         return JSON.parse(localStorage.getItem('task-list'));
+    }
+
+    getItem(key, storage){
+
     }
 }
