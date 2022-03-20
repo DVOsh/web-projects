@@ -100,12 +100,17 @@ function editTask(event){
         }
         
         if(event.code == 'Enter'){
-            if(this.value.match(/^\s*$/))
+            if(this.value.match(/^\s*$/)){
                 this.closest('.task-template').remove();
+                tasksStorage.removeItem(currentText); //Uni removeTask includes task remove from storage
                 // removeTask(event);
+            }
             
             taskTextEl.innerText = this.value;
-            this.remove();
+
+            tasksStorage.editItem(currentText, this.value);
+
+            this.blur();
         }
     });
     

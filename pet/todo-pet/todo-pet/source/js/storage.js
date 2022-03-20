@@ -26,7 +26,15 @@ export class Storage{
         localStorage.setItem('task-list', JSON.stringify(currentStorage, null, 2));
     }
 
-    editItem(itemIndex){
+    editItem(oldValue, newValue){
+        const currentStorage = this.getCurrentStorage();
+
+        for(let item of Object.values(currentStorage)){
+            if(item.value == oldValue)
+                item.value = newValue;
+        }
+
+        localStorage.setItem('task-list', JSON.stringify(currentStorage, null, 2));
     }
 
     onItemCheck(itemKey, isChecked){ //Найти по тексту и поставить значение isChecked
