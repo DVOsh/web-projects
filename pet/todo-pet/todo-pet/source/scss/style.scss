@@ -274,8 +274,10 @@ body{
     }
 
     &.duplicated{
-        background: #c9a5cc;
-        box-shadow: 0 0 10px #c9a5cc, 0 0 20px #c9a5cc, 0 0 30px #c9a5cc, 0 0 40px #c9a5cc;
+        // background: #c9a5cc;
+        // background: #600;
+        // box-shadow: 0 0 10px #c9a5cc, 0 0 20px #c9a5cc, 0 0 30px #c9a5cc, 0 0 40px #c9a5cc;
+        box-shadow: 0 0 10px #f00, 0 0 20px #f00, 0 0 30px #f00, 0 0 40px #f00;
     }
 }
 
@@ -292,5 +294,6 @@ body{
     font-weight: 500;
     line-height: 1.3;
 
-    box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.25);
+    background: #E8E3D3;
+    // box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.25);
 }
