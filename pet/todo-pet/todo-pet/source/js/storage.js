@@ -16,7 +16,6 @@ export class Storage{
 
     addItem(itemText){
         const currentStorage = this.getCurrentStorage();
-        // currentStorage[itemText] = false;
 
         currentStorage[Date.now()] = {
             value: itemText,
@@ -51,7 +50,7 @@ export class Storage{
     removeItem(itemKey){
         const currentStorage = this.getCurrentStorage();
 
-        for(let item of Object.values(currentStorage)){ // Дупликация кода, переделать в ф-ю
+        for(let item of Object.values(currentStorage)){
             if(item.value == itemKey){
                 const itemIndex = Object.values(currentStorage).indexOf(item);
                 const itemName = Object.keys(currentStorage)[itemIndex];
@@ -66,9 +65,5 @@ export class Storage{
 
     getCurrentStorage(){
         return JSON.parse(localStorage.getItem('task-list'));
-    }
-
-    getItem(key, storage){
-
     }
 }
