@@ -36,16 +36,19 @@ function addTask(event){
         return;
     
     const currentTaskStorage = tasksStorage.getCurrentStorage();
-    //Проверка на наличие данной задачи
-    if(currentTaskStorage.hasOwnProperty(this.value)){
-        //Добавить класс для контейнера задачи
-        const keys = Object.keys(currentTaskStorage);
-        let index = keys.indexOf(this.value);
-        taskContainer.children[index + 1].classList.add('duplicated');
-        setTimeout(() => {taskContainer.children[index + 1].classList.remove('duplicated');}, 500)
-        return;
+    //Проверка на наличие данной задачи ------------------Переписать под новый Storage
+    let taskIndex = 0;
+    for(let task of Object.values(currentTaskStorage)){
+        if(task.value == this.value){
+            //Добавить класс для контейнера задачи
+            taskContainer.children[taskIndex + 1].classList.add('duplicated');
+            setTimeout(() => {taskContainer.children[taskIndex + 1].classList.remove('duplicated');}, 500);
+            return;    
+        }
+        taskIndex++;
     }
 
+    
     //Создание элемента задачи
     const taskEl = createTaskElement(this.value)
     taskContainer.append(taskEl);
@@ -97,12 +100,17 @@ function editTask(event){
         }
         
         if(event.code == 'Enter'){
-            if(this.value.match(/^\s*$/))
+            if(this.value.match(/^\s*$/)){
                 this.closest('.task-template').remove();
+                tasksStorage.removeItem(currentText); //Uni removeTask includes task remove from storage
                 // removeTask(event);
+            }
             
             taskTextEl.innerText = this.value;
-            this.remove();
+
+            tasksStorage.editItem(currentText, this.value);
+
+            this.blur();
         }
     });
     
@@ -161,7 +169,7 @@ function checkCheckedItemsCount(){
     };
 
     for(let check in storageObj){
-        if(storageObj[check]){
+        if(storageObj[check].isChecked){
             ++result.checked;
         } else{
             ++result.unchecked;
@@ -213,7 +221,7 @@ function chooseTab(event){
     if(tab.classList.contains('active')){
         let index = 0;
         for(let task in currentTaskStorage){
-            if(currentTaskStorage[task]){
+            if(currentTaskStorage[task].isChecked){
                 moveTask(taskContainer.children[index + 1], true);
             } else{
                 moveTask(taskContainer.children[index + 1]);
@@ -223,7 +231,7 @@ function chooseTab(event){
     } else if(tab.classList.contains('completed')){
         let index = 0;
         for(let task in currentTaskStorage){
-            if(!currentTaskStorage[task]){
+            if(!currentTaskStorage[task].isChecked){
                 moveTask(taskContainer.children[index + 1], true);
             } else{
                 moveTask(taskContainer.children[index + 1]);
@@ -244,7 +252,7 @@ function clearCompletedTasks(event){
     let index = 0;
     
     for(let task in currentTaskStorage){
-        if(currentTaskStorage[task]){ //! uni removeTask
+        if(currentTaskStorage[task].isChecked){ //! uni removeTask
             let taskEl = taskContainer.children[index + 1];
             moveTask(taskEl, true);
             taskEl.addEventListener('transitionend', function(){this.remove()});
@@ -267,3 +275,4 @@ function showClearTabTooltip(event){
 
     this.addEventListener('mouseout', () => {toolTipEl.remove()});
 }
+
