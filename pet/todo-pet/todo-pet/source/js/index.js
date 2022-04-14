@@ -36,8 +36,8 @@ function addTask(event){
         return;
     
     const currentTaskStorage = tasksStorage.getCurrentStorage();
-    //Проверка на наличие данной задачи ------------------Переписать под новый Storage
     let taskIndex = 0;
+    
     for(let task of Object.values(currentTaskStorage)){
         if(task.value == this.value){
             //Добавить класс для контейнера задачи

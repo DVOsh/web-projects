@@ -7,6 +7,7 @@ export class Storage{
             // [Symbol.iterator](){
             //     next()
             // }
+            
         };
         if(!localStorage['task-list']){
             localStorage.setItem('task-list', JSON.stringify(this.storageObj));
@@ -36,7 +37,7 @@ export class Storage{
         localStorage.setItem('task-list', JSON.stringify(currentStorage, null, 2));
     }
 
-    onItemCheck(itemKey, isChecked){ //Найти по тексту и поставить значение isChecked
+    onItemCheck(itemKey, isChecked){
         const currentStorage = this.getCurrentStorage();
 
         for(let item of Object.values(currentStorage)){
